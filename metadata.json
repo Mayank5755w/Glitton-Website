@@ -1,0 +1,6 @@
+{
+  "name": "Glitton Hardware",
+  "description": "Premium furniture fittings & architectural hardware website including catalog, products section, product search, and direct contact options.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
