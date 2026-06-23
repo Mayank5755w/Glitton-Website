@@ -5,6 +5,10 @@
 
 export type ActivePage = 'home' | 'products' | 'catalog' | 'contact';
 
+/**
+ * 👉 When you add a new category in data.ts (PRODUCT_CATEGORIES),
+ *    add its id here too, in the same format: | 'your-id'
+ */
 export type ProductCategory =
   | 'auto-hinges'
   | 'telescopic-channels'

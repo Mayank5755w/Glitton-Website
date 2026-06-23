@@ -53,26 +53,35 @@ export default function Homepage({ onCategorySelect, setActivePage }: HomepagePr
             </button>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6" id="homepage-product-range-list">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6" id="homepage-product-range-list">
             {PRODUCT_CATEGORIES.map((cat) => (
               <div 
                 key={cat.id}
                 onClick={() => handleCategoryClick(cat.id as ProductCategory)}
-                className="group py-4 border-b border-slate-200 hover:border-amber-500 flex items-start space-x-4 cursor-pointer transition-colors duration-200 animate-fade-in"
+                className="group bg-white border border-slate-200/80 rounded-xl p-5 flex flex-col sm:flex-row items-center sm:items-start gap-5 cursor-pointer hover:border-amber-500 hover:shadow-lg hover:shadow-slate-100 transition-all duration-300 animate-fade-in"
                 id={`cat-card-${cat.id}`}
               >
-                {/* Clean industrial line-marker bullet */}
-                <div className="mt-1 bg-amber-500 w-1.5 h-6 rounded-xs group-hover:scale-y-110 transition-transform flex-shrink-0"></div>
-                
-                {/* Content */}
-                <div className="space-y-1 flex-grow">
+                {/* Premium Hardware Product Image — bigger, full image visible */}
+                <div className="w-full sm:w-40 h-40 sm:h-36 bg-slate-50 rounded-lg overflow-hidden border border-slate-100 flex-shrink-0 relative flex items-center justify-center p-2">
+                  <img 
+                    src={cat.image} 
+                    alt={cat.name} 
+                    className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-105 transition-transform duration-500"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+
+                {/* Content Details */}
+                <div className="space-y-1.5 sm:space-y-2 flex-grow text-center sm:text-left">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-amber-600 transition-colors">
+                    <h3 className="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-amber-600 transition-colors flex items-center gap-2">
+                      <span className="w-1.5 h-3.5 bg-amber-500 rounded-xs inline-block sm:hidden flex-shrink-0"></span>
                       {cat.name}
                     </h3>
-                    <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-amber-500 group-hover:translate-x-1 transition-all" />
+                    <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-amber-500 group-hover:translate-x-1 transition-all hidden sm:block" />
                   </div>
-                  <p className="text-sm text-slate-500 leading-relaxed font-sans">
+                  <p className="text-sm sm:text-base text-slate-500 leading-relaxed font-sans line-clamp-2">
                     {cat.description}
                   </p>
                 </div>

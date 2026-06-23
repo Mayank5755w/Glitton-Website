@@ -6,6 +6,8 @@
 import React, { useState } from 'react';
 import { Search, Menu, X, ArrowRight } from 'lucide-react';
 import { ActivePage } from '../types';
+import glittonLogo from '../assets/images/glitton-logo.jpeg';
+import flamencoLogo from '../assets/images/flamenco.png';
 
 interface HeaderProps {
   activePage: ActivePage;
@@ -18,7 +20,6 @@ export default function Header({ activePage, setActivePage, onSearch }: HeaderPr
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchVal, setSearchVal] = useState('');
 
-  // Nav items from image
   const navItems: { label: string; value: ActivePage }[] = [
     { label: 'Home', value: 'home' },
     { label: 'Products', value: 'products' },
@@ -46,38 +47,29 @@ export default function Header({ activePage, setActivePage, onSearch }: HeaderPr
     <header className="sticky top-0 z-50 w-full bg-slate-900 text-white border-b-4 border-amber-500 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          
-          {/* Brand/Logos from Screenshots */}
-          <div 
+
+          {/* Logo Section */}
+          <div
             className="flex items-center space-x-3 cursor-pointer select-none"
             onClick={() => handleNavClick('home')}
             id="header-brand-logos"
           >
-            {/* Professional Polish Tool Icon Badge */}
-            <div className="bg-amber-500 p-2 rounded-sm text-slate-900">
-              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.3C.5 6.7.9 9.7 2.9 11.7c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.4-2.4c.4-.4.4-1 0-1.4z"/>
-              </svg>
-            </div>
+            <img
+              src={glittonLogo}
+              alt="Glitton German Logo"
+              className="h-12 w-auto object-contain"
+            />
 
-            {/* GLITTON */}
-            <div className="flex flex-col items-start leading-none pr-3">
-              <span className="text-2xl font-black tracking-tighter uppercase font-display">
-                glitton<span className="text-[10px] align-super text-amber-500">TM</span>
-              </span>
-              <span className="text-[8px] font-mono tracking-[0.25em] text-neutral-400 mt-0.5">
-                GERMANY
-              </span>
-            </div>
-
-            {/* Vertical Divider line */}
+            {/* Vertical Divider */}
             <div className="h-8 w-[1px] bg-slate-700 hidden sm:block"></div>
 
-            {/* FLAMENCO */}
+            {/* FLAMENCO Logo */}
             <div className="pl-1 hidden sm:block">
-              <span className="text-base tracking-[0.2em] font-light text-neutral-200 uppercase font-display font-semibold transition-colors hover:text-amber-500">
-                FLAMENCO
-              </span>
+              <img
+                src={flamencoLogo}
+                alt="Flamenco Logo"
+                className="h-8 w-auto object-contain"
+              />
             </div>
           </div>
 
@@ -99,7 +91,6 @@ export default function Header({ activePage, setActivePage, onSearch }: HeaderPr
               );
             })}
 
-            {/* Sticky Search bar toggle */}
             <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
               className="p-1.5 rounded-full hover:bg-slate-800 transition-colors text-slate-300 hover:text-amber-500 cursor-pointer"
@@ -135,9 +126,9 @@ export default function Header({ activePage, setActivePage, onSearch }: HeaderPr
         </div>
       </div>
 
-      {/* Floating Input Search Panel */}
+      {/* Search Panel */}
       {isSearchOpen && (
-        <div 
+        <div
           className="absolute left-0 right-0 top-full bg-slate-900 border-b-2 border-amber-500 px-4 py-4 md:py-6 shadow-xl animate-in fade-in slide-in-from-top-4 duration-200"
           id="search-overlay-panel"
         >
@@ -160,7 +151,7 @@ export default function Header({ activePage, setActivePage, onSearch }: HeaderPr
             </form>
             <div className="mt-2 text-xs text-neutral-400 pl-1 flex items-center justify-between">
               <span>Press enter or click arrow to search across products</span>
-              <button 
+              <button
                 onClick={() => setIsSearchOpen(false)}
                 className="text-amber-500 hover:text-amber-400 underline"
               >
@@ -171,9 +162,9 @@ export default function Header({ activePage, setActivePage, onSearch }: HeaderPr
         </div>
       )}
 
-      {/* Responsive mobile slide-out menu */}
+      {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div 
+        <div
           className="md:hidden bg-slate-900 border-b border-slate-800 py-4 px-6 animate-in fade-in duration-200"
           id="mobile-nav-panel"
         >
@@ -195,7 +186,6 @@ export default function Header({ activePage, setActivePage, onSearch }: HeaderPr
               );
             })}
           </div>
-          {/* Small mobile branding header panel info */}
           <div className="mt-6 pt-4 border-t border-slate-800 text-xs text-neutral-500 flex flex-col space-y-1">
             <span className="font-semibold text-neutral-400">FAVIONA OVERSEAS EXIM PVT. LTD.</span>
             <span>Jamshedpur, Jharkhand</span>
