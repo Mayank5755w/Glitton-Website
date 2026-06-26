@@ -9,31 +9,12 @@ export const PRODUCT_CATEGORIES = [
   { id: 'auto-hinges', name: 'Auto Hinges', description: 'Premium hydraulic soft-close cabinet hinges', image: '/images/auto-hinge/auto-hinge.png' },
   { id: 'telescopic-channels', name: 'Telescopic Channels', description: 'Smooth sliding heavy-duty drawer channels', image: '/images/telescopic-channel/1.jpeg' },
   { id: 'sofa-legs', name: 'Sofa Legs', description: 'Premium sofa and furniture support legs', image: '/images/sofa-leg/sl17.png' },
-  { id: 'butt-hinges', name: 'Butt Hinges', description: 'Heavy-duty stainless steel and brass hinges', image: '' },
+
   { id: 'aldrops', name: 'Aldrops', description: 'Premium door aldrops', image: '/images/aldrop/aldrop4.png' },
   { id: 'cabinet-handles', name: 'Cabinet Handles', description: 'Designer cabinet and wardrobe handles', image: '/images/cabinet-handle/ch1.png' },
-  { id: 'pipe-concealed', name: 'Pipe Concealed', description: 'Pipe concealed wardrobe fittings', image: '' },
-  { id: 'curtain-knobs', name: 'Curtain Knobs', description: 'Decorative curtain knobs', image: '' },
-  { id: 'door-closers', name: 'Door Closers', description: 'Automatic hydraulic door closers', image: '' },
-  { id: 'concealed-handles', name: 'Concealed Handles', description: 'Modern concealed profile handles', image: '' },
-  { id: 'jali', name: 'Jali', description: 'Decorative ventilation jali', image: '' },
-  { id: 'multi-locks', name: 'Multi Locks', description: 'Multi-purpose cabinet locking systems', image: '' },
-  { id: 'tower-bolts', name: 'Tower Bolts', description: 'Premium tower bolts', image: '' },
-  { id: 'aluminium-tower-bolts', name: 'Aluminium Tower Bolts', description: 'Lightweight aluminium tower bolts', image: '' },
-  { id: 'aluminium-latches', name: 'Aluminium Latches', description: 'Premium aluminium latches', image: '' },
-  { id: 'mirror-brackets', name: 'Mirror Brackets', description: 'Mirror support brackets', image: '/images/mirror-bracket/mb5.png' },
-  { id: 'd-brackets', name: 'D Brackets', description: 'Premium D brackets', image: '' },
-  { id: 'f-brackets', name: 'F Brackets', description: 'Heavy-duty F brackets', image: '' },
-  { id: 'glass-hardware', name: 'Glass Hardware', description: 'Premium glass fitting accessories', image: '' },
-  { id: 'main-door-handles', name: 'Main Door Handles', description: 'Luxury entrance door handles', image: '' },
-  { id: 'towel-racks', name: 'Folding Towel Racks', description: 'Premium stainless towel racks', image: '' },
-  { id: 'door-fittings', name: 'Door Fittings', description: 'Complete door fitting accessories', image: '' },
-  { id: 'screws-nails', name: 'Screws & Nails', description: 'Industrial screws and nails', image: '' },
-  { id: 'key-hangers', name: 'Key Hangers', description: 'Decorative key hangers', image: '' },
-  { id: 'cloth-hangers', name: 'Cloth Hangers', description: 'Premium cloth hangers', image: '' },
-  { id: 'door-stoppers', name: 'Door Stoppers', description: 'Heavy-duty door stoppers', image: '' },
-  { id: 'safot', name: 'Safot', description: 'Safot door/window fittings', image: '' },
-  { id: 'safety-corner-stud', name: 'Safety Corner & Stud', description: 'Safety corners and SS solid studs', image: '' },
+
+  { id: 'mirror-brackets', name: 'Glass Fitting', description: 'Mirror support brackets', image: '/images/mirror-bracket/mb5.png' },
+
 
   // 👉 ADD NEW CATEGORIES HERE
 
