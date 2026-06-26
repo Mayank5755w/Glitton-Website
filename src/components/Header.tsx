@@ -48,27 +48,37 @@ export default function Header({ activePage, setActivePage, onSearch }: HeaderPr
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
 
+          {/* Mobile: Hamburger on the far left */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="p-1.5 rounded-full hover:bg-slate-800 text-slate-300 hover:text-amber-500 md:hidden order-first"
+            aria-label="Toggle menu"
+            id="header-mobile-menu-toggle"
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+
           {/* Logo Section */}
           <div
-            className="flex items-center space-x-3 cursor-pointer select-none"
+            className="flex items-center space-x-2 sm:space-x-3 cursor-pointer select-none"
             onClick={() => handleNavClick('home')}
             id="header-brand-logos"
           >
             <img
               src={glittonLogo}
               alt="Glitton German Logo"
-              className="h-12 w-auto object-contain"
+              className="h-10 sm:h-12 w-auto object-contain"
             />
 
             {/* Vertical Divider */}
-            <div className="h-8 w-[1px] bg-slate-700 hidden sm:block"></div>
+            <div className="h-7 sm:h-8 w-[1px] bg-slate-700"></div>
 
-            {/* FLAMENCO Logo */}
-            <div className="pl-1 hidden sm:block">
+            {/* FLAMENCO Logo — now visible on mobile too, just smaller */}
+            <div className="pl-0.5 sm:pl-1">
               <img
                 src={flamencoLogo}
                 alt="Flamenco Logo"
-                className="h-8 w-auto object-contain"
+                className="h-5 sm:h-8 w-auto object-contain"
               />
             </div>
           </div>
@@ -102,8 +112,8 @@ export default function Header({ activePage, setActivePage, onSearch }: HeaderPr
             </button>
           </nav>
 
-          {/* Mobile Right Controls */}
-          <div className="flex items-center md:hidden space-x-4">
+          {/* Mobile: only Search on the right now (hamburger moved to far left) */}
+          <div className="flex items-center md:hidden">
             <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
               className="p-1.5 rounded-full hover:bg-slate-800 text-slate-300 hover:text-amber-500"
@@ -111,15 +121,6 @@ export default function Header({ activePage, setActivePage, onSearch }: HeaderPr
               id="header-search-toggle-mobile"
             >
               <Search className="w-5 h-5" />
-            </button>
-
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-1.5 rounded-full hover:bg-slate-800 text-slate-300 hover:text-amber-500"
-              aria-label="Toggle menu"
-              id="header-mobile-menu-toggle"
-            >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
 

@@ -13,16 +13,38 @@ export type ProductCategory =
   | 'auto-hinges'
   | 'telescopic-channels'
   | 'sofa-legs'
+  | 'butt-hinges'
+  | 'aldrops'
   | 'cabinet-handles'
-  | 'door-hardware'
-  | 'glass-fittings';
+  | 'pipe-concealed'
+  | 'curtain-knobs'
+  | 'door-closers'
+  | 'concealed-handles'
+  | 'jali'
+  | 'multi-locks'
+  | 'tower-bolts'
+  | 'aluminium-tower-bolts'
+  | 'aluminium-latches'
+  | 'mirror-brackets'
+  | 'd-brackets'
+  | 'f-brackets'
+  | 'glass-hardware'
+  | 'main-door-handles'
+  | 'towel-racks'
+  | 'door-fittings'
+  | 'screws-nails'
+  | 'key-hangers'
+  | 'cloth-hangers'
+  | 'door-stoppers'
+  | 'safot'
+  | 'safety-corner-stud';
 
 export interface Product {
   id: string;
   name: string;
   category: ProductCategory;
   categoryName: string;
-  itemCode: string;
+  specification: string;   // free text: size, metal type, finish, or any short spec
   material: string;
   finish: string;
   size: string;
