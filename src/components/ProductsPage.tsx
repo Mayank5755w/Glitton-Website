@@ -47,17 +47,27 @@ export default function ProductsPage({
     }
   }, [initialCategoryFilter, clearCategoryFilter]);
 
+  // Build a lookup of category order from PRODUCT_CATEGORIES
+  const categoryOrder = useMemo(() => {
+    const order: Record<string, number> = {};
+    PRODUCT_CATEGORIES.forEach((cat, i) => { order[cat.id] = i; });
+    return order;
+  }, []);
+
   const filteredProducts = useMemo(() => {
-    return PRODUCTS.filter((p) => {
-      const matchesSearch =
-        searchText.trim() === '' ||
-        p.name.toLowerCase().includes(searchText.toLowerCase()) ||
-        p.specification.toLowerCase().includes(searchText.toLowerCase());
-      const matchesCategory = selectedCategory === 'all' || p.category === selectedCategory;
-      const matchesBrand = selectedBrand === 'ALL' || p.brand === selectedBrand;
-      return matchesSearch && matchesCategory && matchesBrand;
-    });
-  }, [searchText, selectedCategory, selectedBrand]);
+    return PRODUCTS
+      .filter((p) => {
+        const matchesSearch =
+          searchText.trim() === '' ||
+          p.name.toLowerCase().includes(searchText.toLowerCase()) ||
+          p.specification.toLowerCase().includes(searchText.toLowerCase());
+        const matchesCategory = selectedCategory === 'all' || p.category === selectedCategory;
+        const matchesBrand = selectedBrand === 'ALL' || p.brand === selectedBrand;
+        return matchesSearch && matchesCategory && matchesBrand;
+      })
+      // Sort by category order so products always appear grouped correctly
+      .sort((a, b) => (categoryOrder[a.category] ?? 99) - (categoryOrder[b.category] ?? 99));
+  }, [searchText, selectedCategory, selectedBrand, categoryOrder]);
 
   // Only categories that have products
   const activeCategories = useMemo(() =>

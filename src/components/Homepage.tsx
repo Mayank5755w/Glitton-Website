@@ -7,6 +7,9 @@ import { ArrowRight, ChevronRight, Phone, Mail } from 'lucide-react';
 import { ProductCategory } from '../types';
 import { PRODUCT_CATEGORIES, BRANDS, CONTACT_INFO } from '../data';
 
+const FEATURED_IDS = ['auto-hinges', 'telescopic-channels', 'sofa-legs', 'cabinet-handles', 'door-closers', 'glass-hardware'];
+const FEATURED_CATEGORIES = PRODUCT_CATEGORIES.filter((c) => FEATURED_IDS.includes(c.id));
+
 interface HomepageProps {
   onCategorySelect: (category: ProductCategory) => void;
   setActivePage: (page: 'home' | 'products' | 'catalog' | 'contact') => void;
@@ -54,7 +57,7 @@ export default function Homepage({ onCategorySelect, setActivePage }: HomepagePr
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6" id="homepage-product-range-list">
-            {PRODUCT_CATEGORIES.map((cat) => (
+            {FEATURED_CATEGORIES.map((cat) => (
               <div 
                 key={cat.id}
                 onClick={() => handleCategoryClick(cat.id as ProductCategory)}
@@ -89,18 +92,18 @@ export default function Homepage({ onCategorySelect, setActivePage }: HomepagePr
             ))}
           </div>
 
-          <div className="mt-8 text-center sm:text-left">
-            <button 
-              onClick={() => {
-                setActivePage('products');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="inline-flex items-center space-x-2 text-sm sm:text-base font-bold text-slate-900 hover:text-amber-600 transition-colors cursor-pointer group"
-              id="view-all-products-link"
+          {/* View All Categories CTA */}
+          <div className="mt-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <button
+              onClick={() => { setActivePage('products'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+              className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-amber-500 hover:text-white text-xs font-black uppercase tracking-widest py-3 px-6 rounded-xl transition-all shadow cursor-pointer"
             >
-              <span>Explore Entire Interactive Specs Sheet</span>
-              <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform" />
+              <span>View All {PRODUCT_CATEGORIES.length} Categories</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
+            <span className="text-xs text-slate-400 font-mono">
+              Aldrops · Tower Bolts · Mirror Brackets · Jali & more
+            </span>
           </div>
         </div>
 
