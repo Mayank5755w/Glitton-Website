@@ -4,32 +4,32 @@
  */
 
 import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Search, Menu, X, ArrowRight } from 'lucide-react';
-import { ActivePage } from '../types';
 import glittonLogo from '../assets/images/glitton-logo.jpeg';
 import flamencoLogo from '../assets/images/flamenco.png';
 
-interface HeaderProps {
-  activePage: ActivePage;
-  setActivePage: (page: ActivePage) => void;
-  onSearch: (text: string) => void;
-}
-
-export default function Header({ activePage, setActivePage, onSearch }: HeaderProps) {
+export default function Header() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchVal, setSearchVal] = useState('');
 
-  const navItems: { label: string; value: ActivePage }[] = [
-    { label: 'Home', value: 'home' },
-    { label: 'Products', value: 'products' },
-    { label: 'Catalog', value: 'catalog' },
-    { label: 'Contact us', value: 'contact' },
+  const navItems: { label: string; path: string }[] = [
+    { label: 'Home', path: '/' },
+    { label: 'Products', path: '/products' },
+    { label: 'Catalog', path: '/catalog' },
+    { label: 'Contact us', path: '/contact' },
   ];
 
-  const handleNavClick = (page: ActivePage) => {
-    setActivePage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const isActivePath = (path: string) => {
+    if (path === '/') return location.pathname === '/';
+    return location.pathname.startsWith(path);
+  };
+
+  const handleNavClick = (path: string) => {
+    navigate(path);
     setIsMobileMenuOpen(false);
     setIsSearchOpen(false);
   };
@@ -37,8 +37,7 @@ export default function Header({ activePage, setActivePage, onSearch }: HeaderPr
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchVal.trim()) {
-      onSearch(searchVal);
-      setActivePage('products');
+      navigate(`/products?q=${encodeURIComponent(searchVal.trim())}`);
       setIsSearchOpen(false);
     }
   };
@@ -61,7 +60,7 @@ export default function Header({ activePage, setActivePage, onSearch }: HeaderPr
           {/* Logo Section */}
           <div
             className="flex items-center space-x-2 sm:space-x-3 cursor-pointer select-none"
-            onClick={() => handleNavClick('home')}
+            onClick={() => handleNavClick('/')}
             id="header-brand-logos"
           >
             <img
@@ -86,12 +85,12 @@ export default function Header({ activePage, setActivePage, onSearch }: HeaderPr
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8" id="header-desktop-nav">
             {navItems.map((item) => {
-              const isActive = activePage === item.value;
+              const isActive = isActivePath(item.path);
               return (
                 <button
-                  key={item.value}
-                  id={`nav-btn-${item.value}`}
-                  onClick={() => handleNavClick(item.value)}
+                  key={item.path}
+                  id={`nav-btn-${item.path.replace('/', '') || 'home'}`}
+                  onClick={() => handleNavClick(item.path)}
                   className={`text-xs font-bold tracking-widest uppercase transition-colors duration-200 pb-1 cursor-pointer ${
                     isActive ? 'text-amber-500 border-b-2 border-amber-500' : 'text-slate-300 hover:text-amber-400'
                   }`}
@@ -172,12 +171,12 @@ export default function Header({ activePage, setActivePage, onSearch }: HeaderPr
           <p className="text-[10px] tracking-[0.15em] text-amber-500 uppercase font-mono mb-3">Glitton Hardware Menu</p>
           <div className="flex flex-col space-y-4">
             {navItems.map((item) => {
-              const isActive = activePage === item.value;
+              const isActive = isActivePath(item.path);
               return (
                 <button
-                  key={item.value}
-                  id={`mobile-nav-btn-${item.value}`}
-                  onClick={() => handleNavClick(item.value)}
+                  key={item.path}
+                  id={`mobile-nav-btn-${item.path.replace('/', '') || 'home'}`}
+                  onClick={() => handleNavClick(item.path)}
                   className={`text-left text-base text-slate-300 hover:text-amber-400 transition-colors py-2 border-b border-slate-800/50 cursor-pointer ${
                     isActive ? 'font-bold text-amber-500 border-l-4 border-l-amber-500 pl-3' : 'pl-1'
                   }`}

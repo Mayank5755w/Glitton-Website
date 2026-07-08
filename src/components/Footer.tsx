@@ -3,18 +3,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Phone, Mail, ArrowUpRight } from 'lucide-react';
-import { ActivePage } from '../types';
 import { CONTACT_INFO } from '../data';
 
-interface FooterProps {
-  setActivePage: (page: ActivePage) => void;
-  activePage: ActivePage;
-}
+export default function Footer() {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-export default function Footer({ setActivePage, activePage }: FooterProps) {
-  const handleNavClick = (page: ActivePage) => {
-    setActivePage(page);
+  const isActivePath = (path: string) => {
+    if (path === '/') return location.pathname === '/';
+    return location.pathname.startsWith(path);
+  };
+
+  const handleNavClick = (path: string) => {
+    navigate(path);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -56,16 +59,16 @@ export default function Footer({ setActivePage, activePage }: FooterProps) {
             </h4>
             <div className="flex flex-col space-y-2.5 items-start">
               {([
-                { label: 'Homepage Portal', value: 'home' },
-                { label: 'Technical Specifications', value: 'products' },
-                { label: 'Export Catalog Download', value: 'catalog' },
-                { label: 'Regional Contact Desk', value: 'contact' }
+                { label: 'Homepage Portal', value: '/' },
+                { label: 'Technical Specifications', value: '/products' },
+                { label: 'Export Catalog Download', value: '/catalog' },
+                { label: 'Regional Contact Desk', value: '/contact' }
               ] as const).map((link) => {
-                const isActive = activePage === link.value;
+                const isActive = isActivePath(link.value);
                 return (
                   <button
                     key={link.value}
-                    id={`footer-link-${link.value}`}
+                    id={`footer-link-${link.value.replace('/', '') || 'home'}`}
                     onClick={() => handleNavClick(link.value)}
                     className={`text-xs sm:text-sm text-left transition-colors cursor-pointer hover:text-amber-500 flex items-center group font-medium ${
                       isActive ? 'text-amber-500 font-bold' : 'text-slate-400'

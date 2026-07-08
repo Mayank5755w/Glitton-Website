@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { Download, FileText, CheckCircle2, RotateCw, BookOpen } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import { PRODUCT_CATEGORIES } from '../data';
+import SEO from './SEO';
 
 // Full list of 40 precise categories present in the 13-page Catalog PDF
 const ALL_CATALOG_CATEGORIES = [
@@ -592,6 +593,11 @@ export default function CatalogPage() {
 
   return (
     <div className="bg-[#f8fafc] py-16 px-4 sm:px-6 lg:px-8" id="catalog-page-container">
+      <SEO
+        title="Product Catalog Download | GLITTON & FLAMENCO | Faviona Overseas"
+        description="Download the complete Faviona Overseas product catalog featuring GLITTON and FLAMENCO furniture fittings — auto hinges, sofa legs, cabinet handles, tower bolts and more."
+        path="/catalog"
+      />
       <div className="max-w-4xl mx-auto text-center space-y-8">
         
         {/* Title corresponding to Brand Guidelines */}

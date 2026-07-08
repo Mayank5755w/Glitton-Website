@@ -4,30 +4,45 @@
  */
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { useSearchParams, Link } from 'react-router-dom';
 import { Search, Filter, MessageCircle, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { Product, ProductCategory } from '../types';
 import { PRODUCTS, PRODUCT_CATEGORIES } from '../data';
-
-interface ProductsPageProps {
-  initialCategoryFilter?: ProductCategory | null;
-  clearCategoryFilter: () => void;
-  searchText: string;
-  setSearchText: (text: string) => void;
-}
+import { createProductSlug } from '../utils/slug';
+import SEO from './SEO';
 
 const PINNED_COUNT = 5; // "All" + 4 category pills always visible
 
-export default function ProductsPage({
-  initialCategoryFilter,
-  clearCategoryFilter,
-  searchText,
-  setSearchText
-}: ProductsPageProps) {
-  const [selectedCategory, setSelectedCategory] = useState<ProductCategory | 'all'>('all');
-  const [selectedBrand, setSelectedBrand] = useState<'ALL' | 'GLITTON' | 'FLAMENCO'>('ALL');
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+export default function ProductsPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const selectedCategory = (searchParams.get('category') as ProductCategory | null) ?? 'all';
+  const searchText = searchParams.get('q') ?? '';
+  const selectedBrand = (searchParams.get('brand') as 'ALL' | 'GLITTON' | 'FLAMENCO' | null) ?? 'ALL';
+
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const setSelectedCategory = (cat: ProductCategory | 'all') => {
+    const next = new URLSearchParams(searchParams);
+    if (cat === 'all') next.delete('category');
+    else next.set('category', cat);
+    setSearchParams(next);
+  };
+
+  const setSearchText = (text: string) => {
+    const next = new URLSearchParams(searchParams);
+    if (!text) next.delete('q');
+    else next.set('q', text);
+    setSearchParams(next);
+  };
+
+  const setSelectedBrand = (brand: 'ALL' | 'GLITTON' | 'FLAMENCO') => {
+    const next = new URLSearchParams(searchParams);
+    if (brand === 'ALL') next.delete('brand');
+    else next.set('brand', brand);
+    setSearchParams(next);
+  };
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -39,13 +54,6 @@ export default function ProductsPage({
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
   }, []);
-
-  useEffect(() => {
-    if (initialCategoryFilter) {
-      setSelectedCategory(initialCategoryFilter);
-      clearCategoryFilter();
-    }
-  }, [initialCategoryFilter, clearCategoryFilter]);
 
   // Build a lookup of category order from PRODUCT_CATEGORIES
   const categoryOrder = useMemo(() => {
@@ -82,6 +90,7 @@ export default function ProductsPage({
   const selectedInOverflow = overflowCategories.some(({ cat }) => cat.id === selectedCategory);
 
   const handleWhatsAppInquiry = (product: Product, e?: React.MouseEvent) => {
+    e?.preventDefault();
     e?.stopPropagation();
     const text = `Hi, I am interested in inquiring about the following product from your website:
 - *Product Name:* ${product.name}
@@ -97,8 +106,25 @@ Please let me know the pricing and minimum order quantity. Thank you!`;
   const pillActive = 'bg-slate-900 border-slate-900 text-amber-500 shadow';
   const pillInactive = 'bg-slate-50 border-slate-200 text-slate-600 hover:border-amber-500/50';
 
+  const currentCategoryName =
+    selectedCategory !== 'all'
+      ? PRODUCT_CATEGORIES.find((c) => c.id === selectedCategory)?.name
+      : null;
+
+  const seoTitle = currentCategoryName
+    ? `${currentCategoryName} | GLITTON & FLAMENCO Hardware | Faviona Overseas`
+    : 'Product Catalog | GLITTON & FLAMENCO Furniture Hardware | Faviona Overseas';
+
+  const seoDescription = currentCategoryName
+    ? `Browse our range of ${currentCategoryName.toLowerCase()} — premium GLITTON and FLAMENCO furniture fittings and architectural hardware, exported from Jamshedpur, India.`
+    : 'Browse our full range of premium furniture fittings and architectural hardware from GLITTON and FLAMENCO — auto hinges, telescopic channels, sofa legs, cabinet handles and more.';
+
+  const seoPath = selectedCategory !== 'all' ? `/products?category=${selectedCategory}` : '/products';
+
   return (
     <div className="bg-[#f8fafc] py-12 px-4 sm:px-6 lg:px-8" id="products-page-container">
+      <SEO title={seoTitle} description={seoDescription} path={seoPath} />
+
       <div className="max-w-7xl mx-auto">
 
         {/* Page title */}
@@ -180,24 +206,17 @@ Please let me know the pricing and minimum order quantity. Thank you!`;
                 </button>
               ))}
 
-              {/* "More" dropdown — only if overflow exists */}
+              {/* "More" dropdown for overflow categories */}
               {overflowCategories.length > 0 && (
                 <div className="relative" ref={dropdownRef}>
                   <button
-                    onClick={() => setDropdownOpen((o) => !o)}
-                    className={`${pillBase} flex items-center gap-1.5 ${
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                    className={`${pillBase} inline-flex items-center gap-1 ${
                       selectedInOverflow ? pillActive : pillInactive
                     }`}
                   >
-                    {selectedInOverflow
-                      ? (() => {
-                          const found = overflowCategories.find(({ cat }) => cat.id === selectedCategory);
-                          return found ? `${found.cat.name} (${found.count})` : 'More';
-                        })()
-                      : `More (${overflowCategories.length})`}
-                    {dropdownOpen
-                      ? <ChevronUp className="w-3 h-3 flex-shrink-0" />
-                      : <ChevronDown className="w-3 h-3 flex-shrink-0" />}
+                    <span>More ({overflowCategories.length})</span>
+                    {dropdownOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                   </button>
 
                   {dropdownOpen && (
@@ -249,11 +268,7 @@ Please let me know the pricing and minimum order quantity. Thank you!`;
               <Filter className="w-10 h-10 mx-auto text-slate-300 stroke-[1.5] mb-3" />
               <p className="text-slate-600 font-semibold text-base mb-1">No products found</p>
               <button
-                onClick={() => {
-                  setSearchText('');
-                  setSelectedCategory('all');
-                  setSelectedBrand('ALL');
-                }}
+                onClick={() => setSearchParams({})}
                 className="mt-4 px-5 py-2.5 bg-slate-900 text-amber-500 text-xs font-bold rounded-xl hover:bg-slate-800 transition-colors cursor-pointer"
               >
                 Reset All Filters
@@ -262,9 +277,9 @@ Please let me know the pricing and minimum order quantity. Thank you!`;
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
               {filteredProducts.map((product) => (
-                <div
+                <Link
                   key={product.id}
-                  onClick={() => setSelectedProduct(product)}
+                  to={`/products/${createProductSlug(product)}`}
                   className="group flex flex-col cursor-pointer rounded-xl bg-white border border-slate-200 overflow-hidden hover:border-amber-500 hover:shadow-lg transition-all duration-300"
                 >
                   <div className="aspect-square w-full overflow-hidden bg-slate-100 relative flex items-center justify-center p-3">
@@ -276,6 +291,7 @@ Please let me know the pricing and minimum order quantity. Thank you!`;
                     <img
                       src={product.image}
                       alt={product.name}
+                      loading="lazy"
                       className="max-w-full max-h-full w-auto h-auto object-contain transition-transform duration-500 group-hover:scale-105"
                       referrerPolicy="no-referrer"
                     />
@@ -303,67 +319,11 @@ Please let me know the pricing and minimum order quantity. Thank you!`;
                       <span>Inquire on WhatsApp</span>
                     </button>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}
         </div>
-
-        {/* Modal */}
-        {selectedProduct && (
-          <div
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm"
-            onClick={() => setSelectedProduct(null)}
-          >
-            <div
-              className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden relative border-t-8 border-amber-500"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                onClick={() => setSelectedProduct(null)}
-                className="absolute top-3 right-3 p-1.5 bg-white/90 hover:bg-amber-500 hover:text-slate-900 text-slate-600 rounded-full transition-colors z-20 cursor-pointer shadow"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              <div className="w-full bg-slate-100">
-                <img
-                  src={selectedProduct.image}
-                  alt={selectedProduct.name}
-                  className="w-full h-auto object-contain max-h-[360px] mx-auto"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-
-              <div className="p-6 space-y-4 text-left">
-                <div>
-                  <span className={`inline-block text-[10px] font-black tracking-[0.2em] px-2.5 py-1 rounded mb-2 ${
-                    selectedProduct.brand === 'GLITTON' ? 'bg-slate-900 text-amber-500' : 'bg-amber-500 text-slate-900'
-                  }`}>
-                    {selectedProduct.brand}
-                  </span>
-                  <h3 className="text-lg font-black text-slate-900 leading-snug">
-                    {selectedProduct.name}
-                  </h3>
-                  <span className="text-xs font-mono text-slate-400 mt-1 block">
-                    {selectedProduct.specification}
-                  </span>
-                </div>
-
-                <button
-                  onClick={() => {
-                    handleWhatsAppInquiry(selectedProduct);
-                    setSelectedProduct(null);
-                  }}
-                  className="w-full inline-flex items-center justify-center space-x-2 bg-slate-900 hover:bg-slate-800 text-amber-500 hover:text-white text-sm font-bold py-3.5 px-4 rounded-xl transition-all shadow-lg cursor-pointer"
-                >
-                  <MessageCircle className="w-5 h-5 fill-amber-500 text-slate-900 stroke-[1.5]" />
-                  <span>Inquire on WhatsApp</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
 
       </div>
     </div>

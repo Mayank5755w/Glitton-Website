@@ -3,27 +3,51 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { useNavigate } from 'react-router-dom';
 import { ArrowRight, ChevronRight, Phone, Mail } from 'lucide-react';
 import { ProductCategory } from '../types';
 import { PRODUCT_CATEGORIES, BRANDS, CONTACT_INFO } from '../data';
+import SEO from './SEO';
 
 const FEATURED_IDS = ['auto-hinges', 'telescopic-channels', 'sofa-legs', 'cabinet-handles', 'door-closers', 'glass-hardware'];
 const FEATURED_CATEGORIES = PRODUCT_CATEGORIES.filter((c) => FEATURED_IDS.includes(c.id));
 
-interface HomepageProps {
-  onCategorySelect: (category: ProductCategory) => void;
-  setActivePage: (page: 'home' | 'products' | 'catalog' | 'contact') => void;
-}
+export default function Homepage() {
+  const navigate = useNavigate();
 
-export default function Homepage({ onCategorySelect, setActivePage }: HomepageProps) {
-  
   const handleCategoryClick = (catId: ProductCategory) => {
-    onCategorySelect(catId);
+    navigate(`/products?category=${catId}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const organizationJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: CONTACT_INFO.companyName,
+    url: 'https://www.faviona.in',
+    description: CONTACT_INFO.subtitle,
+    telephone: CONTACT_INFO.phone,
+    email: CONTACT_INFO.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Birsanagar Zone No. 4',
+      addressLocality: 'Jamshedpur',
+      addressRegion: 'Jharkhand',
+      postalCode: '831019',
+      addressCountry: 'IN',
+    },
+    brand: ['GLITTON', 'FLAMENCO'],
   };
 
   return (
     <div className="bg-[#f8fafc]" id="homepage-root">
+      <SEO
+        title="Faviona Overseas | GLITTON & FLAMENCO Furniture Hardware Exporter"
+        description="Faviona Overseas Exim Pvt. Ltd. — Jamshedpur's premier exporter of premium furniture fittings and architectural hardware, featuring GLITTON (Germany) and FLAMENCO brands."
+        path="/"
+        structuredData={organizationJsonLd}
+      />
+
       {/* Upper Content Section */}
       <section className="max-w-5xl mx-auto px-4 py-12 md:py-16 text-left space-y-12" id="about-section">
         
@@ -47,7 +71,7 @@ export default function Homepage({ onCategorySelect, setActivePage }: HomepagePr
             </h2>
             <button 
               onClick={() => {
-                setActivePage('products');
+                navigate('/products');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               className="text-xs font-bold text-amber-600 hover:text-amber-700 hover:underline uppercase tracking-wider hidden sm:block"
@@ -95,7 +119,7 @@ export default function Homepage({ onCategorySelect, setActivePage }: HomepagePr
           {/* View All Categories CTA */}
           <div className="mt-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <button
-              onClick={() => { setActivePage('products'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+              onClick={() => { navigate('/products'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
               className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-amber-500 hover:text-white text-xs font-black uppercase tracking-widest py-3 px-6 rounded-xl transition-all shadow cursor-pointer"
             >
               <span>View All {PRODUCT_CATEGORIES.length} Categories</span>
@@ -123,9 +147,7 @@ export default function Homepage({ onCategorySelect, setActivePage }: HomepagePr
                 {BRANDS.GLITTON.description}
               </p>
               <button 
-                onClick={() => {
-                  onCategorySelect('auto-hinges');
-                }}
+                onClick={() => handleCategoryClick('auto-hinges')}
                 className="pt-2 text-xs font-bold text-amber-600 hover:text-amber-700 hover:underline inline-flex items-center cursor-pointer uppercase tracking-wider"
               >
                 <span>View Glitton Specifications</span>
@@ -142,9 +164,7 @@ export default function Homepage({ onCategorySelect, setActivePage }: HomepagePr
                 {BRANDS.FLAMENCO.description}
               </p>
               <button 
-                onClick={() => {
-                  onCategorySelect('cabinet-handles');
-                }}
+                onClick={() => handleCategoryClick('cabinet-handles')}
                 className="pt-2 text-xs font-bold text-amber-600 hover:text-amber-700 hover:underline inline-flex items-center cursor-pointer uppercase tracking-wider"
               >
                 <span>View Flamenco Specifications</span>
