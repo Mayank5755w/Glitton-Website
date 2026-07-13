@@ -57,9 +57,9 @@ export default function Homepage() {
             ABOUT FAVIONA OVERSEAS
           </h2>
           <p className="text-slate-700 text-base sm:text-lg leading-relaxed font-sans">
-            Faviona Overseas Exim Pvt. Ltd. is India's premier supplier of heavy-duty, certified furniture fittings and architectural hardware solutions. 
-            Through our globally recognized brands <span className="font-extrabold text-slate-900 border-b border-amber-500 pb-0.5">GLITTON</span> and <span className="font-extrabold text-slate-900 border-b border-amber-500 pb-0.5">FLAMENCO</span>, 
-            we engineer robust components tailored specifically to modern construction developers, boutique cabinet manufacturers, and architectural designers seeking world-class build durability.
+            Faviona Overseas Exim Pvt. Ltd. is India's leading supplier of premium, heavy-duty furniture fittings and certified architectural hardware solutions. 
+            Through our globally recognized brands, <span className="font-extrabold text-slate-900 border-b border-amber-500 pb-0.5">GLITTON</span> and <span className="font-extrabold text-slate-900 border-b border-amber-500 pb-0.5">FLAMENCO</span>, 
+            we deliver precision-engineered components designed for modern construction projects, bespoke cabinet manufacturers, and architectural professionals who demand exceptional quality, reliability, and long-lasting performance.
           </p>
         </div>
 
