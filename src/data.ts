@@ -1608,7 +1608,7 @@ export const CONTACT_INFO = {
   registeredOffice: 'Kharangajhar, Telco Colony, Jamshedpur, Jharkhand – 831004',
   warehouse: 'Birsanagar Zone No. 4, Jamshedpur, Jharkhand – 831019',
   phone: '+91 9204110077',
-  email: 'favionaoverseas@gmail.com',
+  email: 'Email - favionaexim@gmail.com',
   whatsappUrl: 'https://wa.me/919204110077?text=Hi!%20I%20visited%20your%20Glitton%20Hardware%20website%20and%20want%20to%20inquire%20about%20your%20products.',
   catalogDownloadUrl: '#/catalog'
 };
