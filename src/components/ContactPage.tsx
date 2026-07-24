@@ -6,6 +6,7 @@
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { CONTACT_INFO } from '../data';
 import SEO from './SEO';
+import favionaLogoImg from '../assets/images/faviona.jpeg';
 
 export default function ContactPage() {
   return (
@@ -20,6 +21,11 @@ export default function ContactPage() {
 
         {/* Upper Title Description */}
         <div className="text-center mb-12">
+          <img
+            src={favionaLogoImg}
+            alt="Faviona Overseas Exim Pvt. Ltd. Logo"
+            className="h-16 w-auto object-contain rounded mx-auto mb-6"
+          />
           <span className="text-amber-500 font-bold text-xs tracking-[0.2em] uppercase mb-1.5 block font-mono">BUSINESS DISTRIBUTION SERVICE</span>
           <h3 className="text-2xl sm:text-3.5xl font-black text-slate-900 tracking-tight font-display uppercase">
             Connect With Faviona

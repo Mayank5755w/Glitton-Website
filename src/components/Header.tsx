@@ -8,6 +8,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Search, Menu, X, ArrowRight } from 'lucide-react';
 import glittonLogo from '../assets/images/glitton-logo.jpeg';
 import flamencoLogo from '../assets/images/flamenco.png';
+import favionaLogoImg from '../assets/images/faviona.jpeg';
 
 export default function Header() {
   const navigate = useNavigate();
@@ -59,27 +60,15 @@ export default function Header() {
 
           {/* Logo Section */}
           <div
-            className="flex items-center space-x-2 sm:space-x-3 cursor-pointer select-none"
+            className="flex items-center cursor-pointer select-none"
             onClick={() => handleNavClick('/')}
             id="header-brand-logos"
           >
             <img
-              src={glittonLogo}
-              alt="Glitton German Logo"
-              className="h-10 sm:h-12 w-auto object-contain"
+              src={favionaLogoImg}
+              alt="Faviona Overseas Exim Logo"
+              className="h-14 sm:h-16 w-auto object-contain rounded"
             />
-
-            {/* Vertical Divider */}
-            <div className="h-7 sm:h-8 w-[1px] bg-slate-700"></div>
-
-            {/* FLAMENCO Logo — now visible on mobile too, just smaller */}
-            <div className="pl-0.5 sm:pl-1">
-              <img
-                src={flamencoLogo}
-                alt="Flamenco Logo"
-                className="h-5 sm:h-8 w-auto object-contain"
-              />
-            </div>
           </div>
 
           {/* Desktop Navigation */}

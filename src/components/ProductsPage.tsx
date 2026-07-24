@@ -97,7 +97,9 @@ export default function ProductsPage() {
 - *Specification:* ${product.specification}
 - *Brand:* ${product.brand}
 
-Please let me know the pricing and minimum order quantity. Thank you!`;
+Please let me know the pricing and minimum order quantity. Thank you!
+
+— Sent via the Faviona Overseas website`;
     const url = `https://wa.me/919204110077?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank', 'noreferrer');
   };
